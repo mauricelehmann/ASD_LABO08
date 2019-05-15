@@ -11,7 +11,6 @@ Tous les déplacements d'éléments doivent être effectués avec la méthode ht
 #include <cassert>
 #include <iostream>
 using std::forward_list;
-using namespace std;
 
 //Vous pouvez ajouter des fonctions annexes si nécessaire
 
@@ -28,7 +27,7 @@ void fizzBuzz(std::forward_list<int>& L,
 	auto ptrFB = FB.before_begin();
 	auto ptrF = F.before_begin();
 	auto ptrB = B.before_begin();
-	
+
   	auto ptr = L.before_begin();
 	while(next(ptr) != L.end()){
 		//Si divisible par 3
