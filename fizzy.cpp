@@ -22,31 +22,35 @@ void fizzBuzz(std::forward_list<int>& L,
 {
   assert(F.empty() and B.empty() and FB.empty());
   //Parcours de la liste L
-  forward_list<int>::iterator prevIt = L.before_begin();
-  for (forward_list<int>::iterator it = L.begin(); it != L.end(); ++it) {
 
-      std::cout << "prev : " << *prevIt << " \n";
-      std::cout << "it : " << *it << " \n";
-      if(!(*it % 3))
-      {
-          if(*it % 5){
-              //Fizz
-              //std::cout << "FIZZ : " << *it << " |prev : "<< *prevIt << "\n";
-                  F.splice_after(F.before_begin(),L,prevIt);
-          }else{
-              //fizzbuz
-               //std::cout << "FIZZBUZ : " << *it << "\n";
-              //FB.splice_after(FB.before_begin(),L,prevIt);
-          }
-      }else if(!(*it % 5)){
-          //buzz
-           //std::cout << "BUZZ : " << *it << "\n";
-         // B.splice_after(B.before_begin(),L,prevIt);
-
-      }
-
-     prevIt = it;
-
-  }
+	//On pourrait utiliser toujours before_begin() pour l'endroit de l'insérsion du splice
+	//Seulement, dans le codecheck, les valeurs doivent être dans un ordre croissant
+	auto ptrFB = FB.before_begin();
+	auto ptrF = F.before_begin();
+	auto ptrB = B.before_begin();
+	
+  	auto ptr = L.before_begin();
+	while(next(ptr) != L.end()){
+		//Si divisible par 3
+		if(!(*next(ptr) % 3)){
+		  //Si divisible par 5 -> fizzbuzz
+			if(!(*next(ptr) % 5)){
+			    FB.splice_after(ptrFB,L,ptr);
+				++ptrFB;
+			//Sinon -> fizz
+			}else{
+			    F.splice_after(ptrF,L,ptr);
+				++ptrF;
+			}
+		}
+	   //Si divisible par 5 et pas par 3 ->buzz
+		else if(!(*next(ptr) % 5) && (*next(ptr) % 3)){
+			B.splice_after(ptrB,L,ptr);
+			++ptrB;
+		}else{
+			//On incrémente le pointeur uniquement si on a rien splice
+			ptr++;
+		}
+	}
 
 }
